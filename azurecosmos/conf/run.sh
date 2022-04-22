@@ -89,6 +89,10 @@ if [ ! -z "$preferredPageSize" ]; then
    sed -i "s/^[#]*\s*azurecosmos.preferredPageSize\ =.*/azurecosmos.preferredPageSize\ =\ $preferredPageSize/" azurecosmos.properties
 fi
 
+if [ ! -z "$exportfile" ]; then
+   sed -i "s|^[#]*\s*exportfile\ =.*|exportfile\ =\ $exportfile|" azurecosmos.properties
+fi
+
 log_filename="/tmp/ycsb.log"
 
 if [ ! -z "$threads" ] && [ ! -z "$target" ]
