@@ -12,10 +12,12 @@ else
     operation=$ycsb_operation
 fi
 
-if [ -z "$load_or_run" ]; then
-    workload=workloada
-else
-    workload=$workload_type
+if [ ! -z "$recordcount" ]; then
+   sed -i "s/^[#]*\s*recordcount\ =.*/recordcount\ =\ $recordcount/" workloads/$workload
+fi
+
+if [ ! -z "$operationcount" ]; then
+   sed -i "s/^[#]*\s*operationcount\ =.*/operationcount\ =\ $operationcount/" workloads/$workload
 fi
 
 # REQUIRED URI & KEY
