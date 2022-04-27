@@ -13,11 +13,11 @@ else
 fi
 
 if [ ! -z "$recordcount" ]; then
-   sed -i "s/^[#]*\s*recordcount\ =.*/recordcount\ =\ $recordcount/" workloads/$workload
+   sed -i "s/^[#]*\s*recordcount=.*/recordcount=$recordcount/" workloads/$workload
 fi
 
 if [ ! -z "$operationcount" ]; then
-   sed -i "s/^[#]*\s*operationcount\ =.*/operationcount\ =\ $operationcount/" workloads/$workload
+   sed -i "s/^[#]*\s*operationcount=.*/operationcount=$operationcount/" workloads/$workload
 fi
 
 # REQUIRED URI & KEY
