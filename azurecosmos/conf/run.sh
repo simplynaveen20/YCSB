@@ -29,6 +29,22 @@ if [ ! -z "$insertcount" ]; then
    sed -i "$ ainsertcount=$insertcount" workloads/$workload
 fi
 
+if [ ! -z "$readproportion" ]; then
+   sed -i "s/^[#]*\s*readproportion=.*/readproportion=$readproportion/" workloads/$workload
+fi
+
+if [ ! -z "$updateproportion" ]; then
+   sed -i "s/^[#]*\s*updateproportion=.*/updateproportion=$updateproportion/" workloads/$workload
+fi
+
+if [ ! -z "$scanproportion" ]; then
+   sed -i "s/^[#]*\s*scanproportion=.*/scanproportion=$scanproportion/" workloads/$workload
+fi
+
+if [ ! -z "$insertproportion" ]; then
+   sed -i "s/^[#]*\s*insertproportion=.*/insertproportion=$insertproportion/" workloads/$workload
+fi
+
 # REQUIRED URI & KEY
 if [ ! -z "$uri" ]; then
    sed -i "s|^[#]*\s*azurecosmos.uri\ =.*|azurecosmos.uri\ =\ $uri|" azurecosmos.properties
