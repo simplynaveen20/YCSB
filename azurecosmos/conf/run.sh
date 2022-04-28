@@ -12,12 +12,21 @@ else
     operation=$ycsb_operation
 fi
 
+# Updating workload file
 if [ ! -z "$recordcount" ]; then
    sed -i "s/^[#]*\s*recordcount=.*/recordcount=$recordcount/" workloads/$workload
 fi
 
 if [ ! -z "$operationcount" ]; then
    sed -i "s/^[#]*\s*operationcount=.*/operationcount=$operationcount/" workloads/$workload
+fi
+
+if [ ! -z "$insertstart" ]; then
+   sed -i "$ ainsertstart=$insertstart" workloads/$workload
+fi
+
+if [ ! -z "$insertcount" ]; then
+   sed -i "$ ainsertcount=$insertcount" workloads/$workload
 fi
 
 # REQUIRED URI & KEY
