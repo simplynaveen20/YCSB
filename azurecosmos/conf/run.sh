@@ -134,7 +134,3 @@ then
 else
   ./bin/ycsb.sh $operation azurecosmos -P workloads/$workload -P azurecosmos.properties -s 2>&1 | tee -a "$log_filename"
 fi
-
-if [ ! -d "/mnt/$file_share_location" ]; then
-cp $log_filename /mnt/$file_share_location
-fi
