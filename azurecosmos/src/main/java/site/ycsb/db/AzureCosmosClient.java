@@ -314,8 +314,8 @@ public class AzureCosmosClient extends DB {
       if (!AzureCosmosClient.includeExceptionStackInLog) {
         e = null;
       }
-      LOGGER.error("Failed to read key {} in collection {} in database {} statusCode {}", key, table, AzureCosmosClient.databaseName,
-          statusCode, e);
+      LOGGER.error("Failed to read key {} in collection {} in database {} statusCode {}", key, table, 
+          AzureCosmosClient.databaseName, statusCode, e);
       return Status.NOT_FOUND;
     }
   }
@@ -485,7 +485,8 @@ public class AzureCosmosClient extends DB {
       if (!AzureCosmosClient.includeExceptionStackInLog) {
         e = null;
       }
-      LOGGER.error("Failed to delete key {} in collection {} database {} statusCode {}", key, table, AzureCosmosClient.databaseName, statusCode, e);
+      LOGGER.error("Failed to delete key {} in collection {} database {} statusCode {}", key, table, 
+          AzureCosmosClient.databaseName, statusCode, e);
     }
     return Status.ERROR;
   }
