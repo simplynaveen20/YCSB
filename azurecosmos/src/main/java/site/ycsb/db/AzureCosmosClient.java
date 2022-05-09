@@ -310,11 +310,12 @@ public class AzureCosmosClient extends DB {
       }
       return Status.OK;
     } catch (CosmosException e) {
+      int statusCode = e.getStatusCode();
       if (!AzureCosmosClient.includeExceptionStackInLog) {
         e = null;
       }
-      LOGGER.error("Failed to read key {} in collection {} in database {}", key, table, AzureCosmosClient.databaseName,
-          e);
+      LOGGER.error("Failed to read key {} in collection {} in database {} statusCode {}", key, table, AzureCosmosClient.databaseName,
+          statusCode, e);
       return Status.NOT_FOUND;
     }
   }
@@ -370,11 +371,12 @@ public class AzureCosmosClient extends DB {
       }
       return Status.OK;
     } catch (CosmosException e) {
+      int statusCode = e.getStatusCode();
       if (!AzureCosmosClient.includeExceptionStackInLog) {
         e = null;
       }
-      LOGGER.error("Failed to query key {} from collection {} in database {}", startkey, table,
-          AzureCosmosClient.databaseName, e);
+      LOGGER.error("Failed to query key {} from collection {} in database {} statusCode {}", startkey, table,
+          AzureCosmosClient.databaseName, statusCode, e);
     }
     return Status.ERROR;
   }
@@ -408,11 +410,12 @@ public class AzureCosmosClient extends DB {
 
       return Status.OK;
     } catch (CosmosException e) {
+      int statusCode = e.getStatusCode();
       if (!AzureCosmosClient.includeExceptionStackInLog) {
         e = null;
       }
-      LOGGER.error("Failed to update key {} to collection {} in database {}", key, table,
-          AzureCosmosClient.databaseName, e);
+      LOGGER.error("Failed to update key {} to collection {} in database {} statusCode {}", key, table,
+          AzureCosmosClient.databaseName, statusCode, e);
     }
 
     return Status.ERROR;
@@ -453,11 +456,12 @@ public class AzureCosmosClient extends DB {
       }
       return Status.OK;
     } catch (CosmosException e) {
+      int statusCode = e.getStatusCode();
       if (!AzureCosmosClient.includeExceptionStackInLog) {
         e = null;
       }
-      LOGGER.error("Failed to insert key {} to collection {} in database {}", key, table,
-          AzureCosmosClient.databaseName, e);
+      LOGGER.error("Failed to insert key {} to collection {} in database {} statusCode {}", key, table,
+          AzureCosmosClient.databaseName, statusCode, e);
     }
     return Status.ERROR;
   }
@@ -476,11 +480,12 @@ public class AzureCosmosClient extends DB {
       container.deleteItem(key, new PartitionKey(key), new CosmosItemRequestOptions());
 
       return Status.OK;
-    } catch (Exception e) {
+    } catch (CosmosException e) {
+      int statusCode = e.getStatusCode();
       if (!AzureCosmosClient.includeExceptionStackInLog) {
         e = null;
       }
-      LOGGER.error("Failed to delete key {} in collection {}", key, table, e);
+      LOGGER.error("Failed to delete key {} in collection {} database {} statusCode {}", key, table, AzureCosmosClient.databaseName, statusCode, e);
     }
     return Status.ERROR;
   }
