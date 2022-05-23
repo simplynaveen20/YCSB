@@ -9,10 +9,11 @@ def main():
     path = sys.argv[1]
     input_file = open(path, 'r')
     lines = input_file.readlines()
-    saving_filename = os.path.basename(path)
+    filename = os.path.basename(path)
+    filename_withoutextention = os.path.splitext(filename)[0]
 
     # create the csv writer
-    output_csv = open("csv_" + saving_filename, 'w', newline='')
+    output_csv = open(filename_withoutextention + ".csv", 'w', newline='')
     writer = csv.writer(output_csv)
     header = ['Date', 'Time', 'Operation', 'RPS', 'Count', 'MAX(microsecond)', 'MIN(microsecond)', 'AVG(microsecond)',
               'P90(microsecond)', 'P99(microsecond)', 'P999(microsecond)', 'P9999(microsecond)']
@@ -53,6 +54,8 @@ def parse_line_for_formatting(line, writer):
     # est completion in 52 minutes READ: Count=14959, Max=613887, Min=1110, Avg=12876.19, 90=25807, 99=78143,
     # 99.9=493311, 99.99=609279]
     third_part = split_semicolon[2].strip()
+    if 'CLEANUP' in third_part:
+        return
     operation = ''
     count = ''
     max_in_micro_sec = ''
@@ -66,8 +69,6 @@ def parse_line_for_formatting(line, writer):
         metrics = metrics.strip()
         metrics = metrics.replace(']', '')
         metrics = metrics.replace(',', '')
-        if 'CLEANUP' in metrics:
-            continue
 
         if ':' in metrics:
             operation = metrics.replace(':', '')
