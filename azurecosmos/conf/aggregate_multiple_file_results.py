@@ -131,17 +131,17 @@ def main():
                         total_read_max = weighted_current_max
 
                 elif '[READ-FAILED], Operations,' in line:
-                    current_read_failed_operation += int(line.replace('[READ], Operations, ', ''))
+                    current_read_failed_operation += int(line.replace('[READ-FAILED], Operations, ', ''))
                 elif '[READ-FAILED], AverageLatency(us), ' in line:
-                    weighted_current_avg = (float(line.replace('[READ], AverageLatency(us), ',
+                    weighted_current_avg = (float(line.replace('[READ-FAILED], AverageLatency(us), ',
                                                                '')) * current_read_failed_operation) / total_read_failed_count
                     total_read_failed_avg += weighted_current_avg
                 elif '[READ-FAILED], 95thPercentileLatency(us), ' in line:
-                    weighted_current_p95 = (float(line.replace('[READ], 95thPercentileLatency(us), ',
+                    weighted_current_p95 = (float(line.replace('[READ-FAILED], 95thPercentileLatency(us), ',
                                                                '')) * current_read_failed_operation) / total_read_failed_count
                     total_read_failed_p95 += weighted_current_p95
                 elif '[READ-FAILED], 99thPercentileLatency(us), ' in line:
-                    weighted_current_p99 = (float(line.replace('[READ], 99thPercentileLatency(us), ',
+                    weighted_current_p99 = (float(line.replace('[READ-FAILED], 99thPercentileLatency(us), ',
                                                                '')) * current_read_failed_operation) / total_read_failed_count
                     total_read_failed_p99 += weighted_current_p99
                 elif '[READ-FAILED], MinLatency(us), ' in line:
@@ -491,17 +491,17 @@ def main():
                         total_read_max = weighted_current_max
 
                 elif '[READ-FAILED], Operations,' in line:
-                    current_read_failed_operation += int(line.replace('[READ], Operations, ', ''))
+                    current_read_failed_operation += int(line.replace('[READ-FAILED], Operations, ', ''))
                 elif '[READ-FAILED], AverageLatency(us), ' in line:
-                    weighted_current_avg = (float(line.replace('[READ], AverageLatency(us), ',
+                    weighted_current_avg = (float(line.replace('[READ-FAILED], AverageLatency(us), ',
                                                                '')) * current_read_failed_operation) / total_read_failed_count
                     total_read_failed_avg += weighted_current_avg
                 elif '[READ-FAILED], 95thPercentileLatency(us), ' in line:
-                    weighted_current_p95 = (float(line.replace('[READ], 95thPercentileLatency(us), ',
+                    weighted_current_p95 = (float(line.replace('[READ-FAILED], 95thPercentileLatency(us), ',
                                                                '')) * current_read_failed_operation) / total_read_failed_count
                     total_read_failed_p95 += weighted_current_p95
                 elif '[READ-FAILED], 99thPercentileLatency(us), ' in line:
-                    weighted_current_p99 = (float(line.replace('[READ], 99thPercentileLatency(us), ',
+                    weighted_current_p99 = (float(line.replace('[READ-FAILED], 99thPercentileLatency(us), ',
                                                                '')) * current_read_failed_operation) / total_read_failed_count
                     total_read_failed_p99 += weighted_current_p99
                 elif '[READ-FAILED], MinLatency(us), ' in line:
