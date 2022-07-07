@@ -66,6 +66,10 @@ if [ ! -z "$includeExceptionStackInLog" ]; then
    sed -i "s/^[#]*\s*azurecosmos.includeExceptionStackInLog\ =.*/azurecosmos.includeExceptionStackInLog\ =\ $includeExceptionStackInLog/" azurecosmos.properties
 fi
 
+if [ ! -z "$diagnosticsLatencyThresholdInMS" ]; then
+   sed -i "s/^[#]*\s*azurecosmos.diagnosticsLatencyThresholdInMS\ =.*/azurecosmos.diagnosticsLatencyThresholdInMS\ =\ $diagnosticsLatencyThresholdInMS/" azurecosmos.properties
+fi
+
 if [ ! -z "$userAgent" ]; then
    sed -i "s/^[#]*\s*azurecosmos.userAgent\ =.*/azurecosmos.userAgent\ =\ $userAgent/" azurecosmos.properties
 fi

@@ -73,6 +73,7 @@ public class AzureCosmosClient extends DB {
   private static final int DEFAULT_MAX_DEGREE_OF_PARALLELISM = -1;
   private static final int DEFAULT_MAX_BUFFERED_ITEM_COUNT = 0;
   private static final int DEFAULT_PREFERRED_PAGE_SIZE = -1;
+  private static final int DEFAULT_DIAGNOSTICS_LATENCY_THRESHOLD_IN_MS = -1;
   private static final boolean DEFAULT_INCLUDE_EXCEPTION_STACK_IN_LOG = false;
   private static final String DEFAULT_USER_AGENT = "azurecosmos-ycsb";
 
@@ -91,6 +92,7 @@ public class AzureCosmosClient extends DB {
   private static int maxDegreeOfParallelism;
   private static int maxBufferedItemCount;
   private static int preferredPageSize;
+  private static int diagnosticsLatencyThresholdInMS;
   private static boolean includeExceptionStackInLog;
   private static Map<String, CosmosContainer> containerCache;
   private static String userAgent;
@@ -138,6 +140,10 @@ public class AzureCosmosClient extends DB {
 
     AzureCosmosClient.preferredPageSize = this.getIntProperty("azurecosmos.preferredPageSize",
         DEFAULT_PREFERRED_PAGE_SIZE);
+
+    AzureCosmosClient.diagnosticsLatencyThresholdInMS = this.getIntProperty(
+        "azurecosmos.diagnosticsLatencyThresholdInMS",
+        DEFAULT_DIAGNOSTICS_LATENCY_THRESHOLD_IN_MS);
 
     AzureCosmosClient.includeExceptionStackInLog = this.getBooleanProperty("azurecosmos.includeExceptionStackInLog",
         DEFAULT_INCLUDE_EXCEPTION_STACK_IN_LOG);
@@ -308,6 +314,12 @@ public class AzureCosmosClient extends DB {
         }
         StringByteIterator.putAllAsByteIterators(result, stringResults);
       }
+
+      if (diagnosticsLatencyThresholdInMS > 0 &&
+          response.getDiagnostics().getDuration().compareTo(Duration.ofMillis(diagnosticsLatencyThresholdInMS)) > 0) {
+        LOGGER.warn(response.getDiagnostics().toString());
+      }
+
       return Status.OK;
     } catch (CosmosException e) {
       int statusCode = e.getStatusCode();
@@ -406,7 +418,11 @@ public class AzureCosmosClient extends DB {
       }
 
       PartitionKey pk = new PartitionKey(key);
-      container.patchItem(key, pk, cosmosPatchOperations, ObjectNode.class);
+      CosmosItemResponse<ObjectNode> response = container.patchItem(key, pk, cosmosPatchOperations, ObjectNode.class);
+      if (diagnosticsLatencyThresholdInMS > 0 &&
+          response.getDiagnostics().getDuration().compareTo(Duration.ofMillis(diagnosticsLatencyThresholdInMS)) > 0) {
+        LOGGER.warn(response.getDiagnostics().toString());
+      }
 
       return Status.OK;
     } catch (CosmosException e) {
@@ -449,11 +465,18 @@ public class AzureCosmosClient extends DB {
       for (Map.Entry<String, ByteIterator> pair : values.entrySet()) {
         node.put(pair.getKey(), pair.getValue().toString());
       }
+      CosmosItemResponse<ObjectNode> response;
       if (AzureCosmosClient.useUpsert) {
-        container.upsertItem(node, pk, new CosmosItemRequestOptions());
+        response = container.upsertItem(node, pk, new CosmosItemRequestOptions());
       } else {
-        container.createItem(node, pk, new CosmosItemRequestOptions());
+        response = container.createItem(node, pk, new CosmosItemRequestOptions());
       }
+
+      if (diagnosticsLatencyThresholdInMS > 0 &&
+          response.getDiagnostics().getDuration().compareTo(Duration.ofMillis(diagnosticsLatencyThresholdInMS)) > 0) {
+        LOGGER.warn(response.getDiagnostics().toString());
+      }
+
       return Status.OK;
     } catch (CosmosException e) {
       int statusCode = e.getStatusCode();
@@ -477,7 +500,13 @@ public class AzureCosmosClient extends DB {
         container = AzureCosmosClient.database.getContainer(table);
         AzureCosmosClient.containerCache.put(table, container);
       }
-      container.deleteItem(key, new PartitionKey(key), new CosmosItemRequestOptions());
+      CosmosItemResponse<Object> response = container.deleteItem(key,
+          new PartitionKey(key),
+          new CosmosItemRequestOptions());
+      if (diagnosticsLatencyThresholdInMS > 0 &&
+          response.getDiagnostics().getDuration().compareTo(Duration.ofMillis(diagnosticsLatencyThresholdInMS)) > 0) {
+        LOGGER.warn(response.getDiagnostics().toString());
+      }
 
       return Status.OK;
     } catch (CosmosException e) {
