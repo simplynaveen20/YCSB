@@ -45,6 +45,10 @@ if [ ! -z "$insertproportion" ]; then
    sed -i "s/^[#]*\s*insertproportion=.*/insertproportion=$insertproportion/" workloads/$workload
 fi
 
+if [ ! -z "$requestdistribution" ]; then
+   sed -i "s/^[#]*\s*requestdistribution=.*/requestdistribution=$requestdistribution/" workloads/$workload
+fi
+
 # REQUIRED URI & KEY
 if [ ! -z "$uri" ]; then
    sed -i "s|^[#]*\s*azurecosmos.uri\ =.*|azurecosmos.uri\ =\ $uri|" azurecosmos.properties
