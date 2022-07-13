@@ -49,6 +49,10 @@ if [ ! -z "$requestdistribution" ]; then
    sed -i "s/^[#]*\s*requestdistribution=.*/requestdistribution=$requestdistribution/" workloads/$workload
 fi
 
+if [ ! -z "$insertorder" ]; then
+   sed -i "s/^[#]*\s*insertorder=.*/insertorder=$insertorder/" workloads/$workload
+fi
+
 # REQUIRED URI & KEY
 if [ ! -z "$uri" ]; then
    sed -i "s|^[#]*\s*azurecosmos.uri\ =.*|azurecosmos.uri\ =\ $uri|" azurecosmos.properties
