@@ -29,8 +29,8 @@ if [ ! -z "$insertcount" ]; then
    sed -i "$ ainsertcount=$insertcount" workloads/$workload
 fi
 
-if [ ! -z "$insertstart" ]; then
-   sed -i "$ ainsertstart=$insertstart" workloads/$workload
+if [ ! -z "$insertorder" ]; then
+   sed -i "$ ainsertorder=$insertorder" workloads/$workload
 fi
 
 if [ ! -z "$readproportion" ]; then
